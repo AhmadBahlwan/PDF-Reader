@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PDF Reader</string>
+    <string name="file_name">File Name</string>
+    <string name="action_filter">Filter</string>
+    <string name="search">Search</string>
+    <string name="sort_by">Sort by</string>
+    <string name="descending">DESCENDING</string>
+    <string name="name">Name</string>
+    <string name="size">Size</string>
+    <string name="date">date</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+</resources>
