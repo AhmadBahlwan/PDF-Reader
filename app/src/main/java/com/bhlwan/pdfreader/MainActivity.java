@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,15 +19,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
-
-import com.github.barteksc.pdfviewer.PDFView;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<File>fileList = new ArrayList<>();
     public static PDFAdapter obj_adapter;
     public static int REQUEST_PERMISSION = 1;
+    public static String ROOT_DIRECTORY = "storage/emulated/0";
     boolean permission;
     File dir;
     SharedPreferences sharedPreferences;
@@ -51,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("option id", Context.MODE_PRIVATE);
         sorting_option_id = sharedPreferences.getInt("sorting_option", R.id.sort_by_name);
         is_Descending = sharedPreferences.getBoolean("IS_CHECKED",false);
-        dir = new File(Environment.getExternalStoragePublicDirectory("/").toString());
+        dir = new File(ROOT_DIRECTORY);
         permission_fn();
-
         lv_pdf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -144,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     
-      /*chose the sorting type*/
+      /**chose the sorting type*/
     public static void sortBy(int sorting_id){
         switch (sorting_id){
             case R.id.sort_by_name:
@@ -179,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
     /**Add all files in device to fileList variable*/
     public ArrayList<File> getFile(File dir){
         File listFiles[] = dir.listFiles();
-
         if (listFiles!=null && listFiles.length>0){
 
             for (int i=0; i<listFiles.length;i++){
@@ -198,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                             fileList.add(listFiles[i]);
                         }
                     }
-
                 }
             }
         }
