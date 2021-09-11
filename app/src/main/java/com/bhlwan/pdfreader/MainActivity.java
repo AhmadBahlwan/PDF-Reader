@@ -95,10 +95,9 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+            if (!(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                     Manifest.permission.READ_EXTERNAL_STORAGE))){
 
-            }else {
                 ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_PERMISSION);
             }
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
         /** TO Compare files in order to sort them*/
-    public static Comparator name_compartor = new Comparator<File>() {
+    public static Comparator name_comparator = new Comparator<File>() {
 
         public int compare(File file1, File file2) {
             if (is_Descending)
@@ -121,14 +120,14 @@ public class MainActivity extends AppCompatActivity {
               return file1.getName().compareTo(file2.getName());
         }
     };
-    public static Comparator size_compartor = new Comparator<File>() {
+    public static Comparator size_comparator = new Comparator<File>() {
         public int compare(File file1, File file2) {
             if (is_Descending)
                 return (int) (file2.length() - file1.length());
             else
                 return (int) (file1.length() - file2.length());        }
     };
-    public static Comparator date_compartor = new Comparator<File>() {
+    public static Comparator date_comparator = new Comparator<File>() {
         public int compare(File file1, File file2) {
             if (is_Descending)
                 return (int)(file2.lastModified() - file1.lastModified());
@@ -141,13 +140,13 @@ public class MainActivity extends AppCompatActivity {
     public static void sortBy(int sorting_id){
         switch (sorting_id){
             case R.id.sort_by_name:
-                Collections.sort(fileList,name_compartor);
+                Collections.sort(fileList, name_comparator);
                 break;
             case R.id.sort_by_size:
-                Collections.sort(fileList,size_compartor);
+                Collections.sort(fileList, size_comparator);
                 break;
             case R.id.sort_by_date:
-                Collections.sort(fileList,date_compartor);
+                Collections.sort(fileList, date_comparator);
                 break;
         }
     }

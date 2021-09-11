@@ -1,6 +1,8 @@
 package com.bhlwan.pdfreader;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -10,14 +12,18 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 public class ViewPDFFiles extends AppCompatActivity implements OnPageChangeListener {
 
@@ -35,6 +41,7 @@ public class ViewPDFFiles extends AppCompatActivity implements OnPageChangeListe
         pdfView.setBackgroundColor(Color.LTGRAY);
         position = getIntent().getIntExtra("position",-1);
         Log.d("page",String.valueOf(pageNumber));
+        System.out.println(MainActivity.fileList.get(position).getName());
         Intent intent=getIntent();
         if(intent!=null) {
 
@@ -60,7 +67,36 @@ public class ViewPDFFiles extends AppCompatActivity implements OnPageChangeListe
         pageNumber = getPageNumber(filePath);
         displayPDF();
     }
-             /**Open pdf file from within the application*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.pdf_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()==R.id.action_share){
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            shareIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+            shareIntent.setType("application/pdf");
+
+
+            try{ /// disable runtime check
+                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+                m.invoke(null);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            startActivity(shareIntent);
+        }
+        return true;
+    }
+
+    /**Open pdf file from within the application*/
     private void displayPDF(){
 
         pdfView.fromFile(MainActivity.fileList.get(position))
