@@ -12,19 +12,37 @@
         android:contentDescription="TODO"></ImageView>
 
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_name"
-        android:text="@string/file_name"
+        android:layout_marginStart="37dp"
         android:layout_toEndOf="@id/iv_image"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:layout_marginStart="10dp"
         android:ellipsize="end"
+        android:gravity="center"
         android:maxLines="1"
         android:paddingEnd="10dp"
-        android:textSize="15sp"
+        android:text="@string/file_name"
         android:textColor="#000000"
+        android:textSize="15sp"
 
         ></TextView>
+
+    <TextView
+        android:id="@+id/tv_size"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="245dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="90px"
+        android:layout_marginBottom="90px"
+        android:layout_toEndOf="@id/iv_image"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingEnd="10dp"
+        android:text="@string/file_size"
+        android:textColor="#000000"
+        android:textSize="12sp"></TextView>
 </RelativeLayout>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PDF Reader</string>
     <string name="file_name">File Name</string>
+    <string name="file_size">File Size</string>
     <string name="action_filter">Filter</string>
     <string name="search">Search</string>
     <string name="sort_by">Sort by</string>

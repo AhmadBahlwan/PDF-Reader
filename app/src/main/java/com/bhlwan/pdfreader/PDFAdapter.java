@@ -1,7 +1,7 @@
 package com.bhlwan.pdfreader;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +12,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +59,7 @@ public class PDFAdapter extends ArrayAdapter<File> implements Filterable {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -62,14 +68,16 @@ public class PDFAdapter extends ArrayAdapter<File> implements Filterable {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.pdf_adapter,parent,false);
             viewHolder = new ViewHolder();
 
-            viewHolder.tv_fileName =  convertView.findViewById(R.id.tv_name);
+            viewHolder.fileName =  convertView.findViewById(R.id.tv_name);
+            viewHolder.fileSize = convertView.findViewById(R.id.tv_size);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
         File currentFile = search_pdf_files.get(position);
-        viewHolder.tv_fileName.setText(currentFile.getName());
+        viewHolder.fileName.setText(currentFile.getName());
+        viewHolder.fileSize.setText(getFileSizeToShow(currentFile.length()));
         return convertView;
     }
 
@@ -110,7 +118,14 @@ public class PDFAdapter extends ArrayAdapter<File> implements Filterable {
         }
     };
 
+    private String getFileSizeToShow(long numberOfBytes){
+        return numberOfBytes > 1023000 ? Math.round(((float) numberOfBytes / (1024 * 1024)) * 100.0)/100.0  +"MB":
+                Math.round(((float) numberOfBytes/1024)*100.0)/100.0 + "KB";
+
+    }
+
     public class ViewHolder{
-       TextView tv_fileName;
+       TextView fileName;
+       TextView fileSize;
     }
 }
